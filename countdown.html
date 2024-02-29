@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Countdown Timer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        
+        #countdown {
+            text-align: center;
+        }
+        
+        #timer {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div id="countdown">
+    <h1>Countdown Timer</h1>
+    <div id="timer">00:00:00</div>
+    <button onclick="startCountdown()">Start</button>
+    <button onclick="stopCountdown()">Stop</button>
+</div>
+
+<script>
+    let countdownInterval;
+    let secondsLeft = 0;
+
+    function startCountdown() {
+        const hours = parseInt(prompt("Enter hours:"));
+        const minutes = parseInt(prompt("Enter minutes:"));
+        const seconds = parseInt(prompt("Enter seconds:"));
+
+        if (isNaN(hours) || isNaN(minutes) || isNaN(seconds)) {
+            alert("Please enter valid numbers for hours, minutes, and seconds.");
+            return;
+        }
+
+        secondsLeft = hours * 3600 + minutes * 60 + seconds;
+
+        countdownInterval = setInterval(updateCountdown, 1000);
+    }
+
+    function stopCountdown() {
+        clearInterval(countdownInterval);
+    }
+
+    function updateCountdown() {
+        if (secondsLeft <= 0) {
+            clearInterval(countdownInterval);
+            document.getElementById("timer").textContent = "Time's up!";
+            return;
+        }
+
+        const hours = Math.floor(secondsLeft / 3600);
+        const minutes = Math.floor((secondsLeft % 3600) / 60);
+        const seconds = secondsLeft % 60;
+
+        const formattedTime = `${padZero(hours)}:${padZero(minutes)}:${padZero(seconds)}`;
+        document.getElementById("timer").textContent = formattedTime;
+
+        secondsLeft--;
+    }
+
+    function padZero(number) {
+        return (number < 10 ? "0" : "") + number;
+    }
+</script>
+
+</body>
+</html>
